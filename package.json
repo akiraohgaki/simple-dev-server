@@ -1,0 +1,30 @@
+{
+    "name": "simple-dev-server",
+    "version": "0.0.0",
+    "description": "Simple development web server library.",
+    "author": "Akira Ohgaki",
+    "license": "BSD-2-Clause",
+    "homepage": "https://github.com/akiraohgaki/simple-dev-server",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/akiraohgaki/simple-dev-server.git"
+    },
+    "type": "module",
+    "main": "dist/simple-dev-server.js",
+    "types": "dist/simple-dev-server.d.ts",
+    "scripts": {
+        "prebuild": "npm run clean && npm run lint",
+        "build": "tsc",
+        "watch": "tsc -w",
+        "clean": "rm -rf dist",
+        "lint": "tsc --noEmit && eslint --ext '.ts' ./src",
+        "server": "node server.js"
+    },
+    "devDependencies": {
+        "typescript": "*",
+        "eslint": "*",
+        "@typescript-eslint/parser": "*",
+        "@typescript-eslint/eslint-plugin": "*",
+        "@types/node": "*"
+    }
+}
