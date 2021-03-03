@@ -1,6 +1,6 @@
 # Simple Dev Server
 
-Simple development web server library.
+A simple development web server library.
 
 Copyright: 2021, Akira Ohgaki
 
