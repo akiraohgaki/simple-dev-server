@@ -7,7 +7,7 @@
     "homepage": "https://github.com/akiraohgaki/simple-dev-server",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/akiraohgaki/simple-dev-server.git"
+        "url": "https://github.com/akiraohgaki/simple-dev-server.git"
     },
     "type": "module",
     "main": "dist/simple-dev-server.js",
