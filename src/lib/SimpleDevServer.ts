@@ -54,6 +54,9 @@ export default class SimpleDevServer {
 
             console.log('Server has stopped');
         }
+        else {
+            console.log('Server is not running');
+        }
     }
 
     private _handleRequest(request: http.IncomingMessage, response: http.ServerResponse): void {
