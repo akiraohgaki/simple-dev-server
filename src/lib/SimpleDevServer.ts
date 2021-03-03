@@ -1,6 +1,6 @@
 import http from 'http';
 import fs from 'fs';
-import {ServerConfig, ServerConfigOptions} from './types.js';
+import {ServerConfig} from './types.js';
 
 export default class SimpleDevServer {
 
@@ -8,7 +8,7 @@ export default class SimpleDevServer {
 
     private _server: http.Server | null;
 
-    constructor(config: ServerConfigOptions = {}) {
+    constructor(config: Partial<ServerConfig> = {}) {
         this._config = {
             port: 8080,
             documentRoot: process.cwd(),
@@ -40,6 +40,7 @@ export default class SimpleDevServer {
     start(): void {
         this._server = http.createServer((request, response) => {
             console.log(request.url);
+
             this._handleRequest(request, response);
         });
         this._server.listen(this._config.port);
@@ -60,7 +61,7 @@ export default class SimpleDevServer {
     }
 
     private _handleRequest(request: http.IncomingMessage, response: http.ServerResponse): void {
-        const path = this._resolvePath(request.url);
+        const path = this._resolvePath(request.url || '/');
 
         fs.readFile(path, (error, data) => {
             if (error) {
@@ -83,8 +84,12 @@ export default class SimpleDevServer {
                 response.end(message, 'utf-8');
             }
             else {
-                const ext = path.split('.').pop()?.toLowerCase() ?? '';
-                const contentType = this._config.mimeTypes[ext] ?? 'application/octet-stream';
+                let contentType = 'application/octet-stream';
+
+                const ext = path.split('.').pop()?.toLowerCase();
+                if (ext && ext in this._config.mimeTypes) {
+                    contentType = this._config.mimeTypes[ext];
+                }
 
                 response.writeHead(200, {
                     ...this._config.headers,
@@ -95,22 +100,20 @@ export default class SimpleDevServer {
         });
     }
 
-    private _resolvePath(url?: string): string {
-        let path = url ?? '/';
+    private _resolvePath(url: string): string {
+        let path = url;
 
-        if (path) {
-            if (this._config.rewriteRules.length) {
-                for (const [pattern, pathname] of this._config.rewriteRules) {
-                    if (path.search(new RegExp(pattern)) !== -1) {
-                        path = pathname;
-                        break;
-                    }
+        if (this._config.rewriteRules.length) {
+            for (const [pattern, pathname] of this._config.rewriteRules) {
+                if (path.search(new RegExp(pattern)) !== -1) {
+                    path = pathname;
+                    break;
                 }
             }
+        }
 
-            if (path.endsWith('/')) {
-                path += this._config.directoryIndex;
-            }
+        if (path.endsWith('/')) {
+            path += this._config.directoryIndex;
         }
 
         return this._config.documentRoot + path;
