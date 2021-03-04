@@ -1,8 +1,8 @@
-import { ServerConfig, ServerConfigOptions } from './types.js';
+import { ServerConfig } from './types.js';
 export default class SimpleDevServer {
     private _config;
     private _server;
-    constructor(config?: ServerConfigOptions);
+    constructor(config?: Partial<ServerConfig>);
     get config(): ServerConfig;
     start(): void;
     stop(): void;

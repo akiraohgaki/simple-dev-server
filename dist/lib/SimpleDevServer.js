@@ -6,13 +6,20 @@ export default class SimpleDevServer {
                 'Pragma': 'no-cache',
                 'Cache-Control': 'no-cache'
             }, mimeTypes: {
+                'txt': 'text/plain',
+                'htm': 'text/html',
                 'html': 'text/html',
                 'js': 'text/javascript',
                 'css': 'text/css',
+                'xml': 'application/xml',
                 'json': 'application/json',
                 'svg': 'image/svg+xml',
+                'gif': 'image/gif',
                 'jpg': 'image/jpeg',
-                'png': 'image/png'
+                'jpeg': 'image/jpeg',
+                'png': 'image/png',
+                'webp': 'image/webp',
+                'ico': 'image/vnd.microsoft.icon'
             }, rewriteRules: [] }, config);
         this._server = null;
     }
@@ -33,11 +40,14 @@ export default class SimpleDevServer {
             this._server = null;
             console.log('Server has stopped');
         }
+        else {
+            console.log('Server is not running');
+        }
     }
     _handleRequest(request, response) {
-        const path = this._resolvePath(request.url);
+        const path = this._resolvePath(request.url || '/');
         fs.readFile(path, (error, data) => {
-            var _a, _b, _c;
+            var _a;
             if (error) {
                 let statusCode = 0;
                 let message = '';
@@ -53,27 +63,28 @@ export default class SimpleDevServer {
                 response.end(message, 'utf-8');
             }
             else {
-                const ext = (_b = (_a = path.split('.').pop()) === null || _a === void 0 ? void 0 : _a.toLowerCase()) !== null && _b !== void 0 ? _b : '';
-                const contentType = (_c = this._config.mimeTypes[ext]) !== null && _c !== void 0 ? _c : 'application/octet-stream';
+                let contentType = 'application/octet-stream';
+                const ext = (_a = path.split('.').pop()) === null || _a === void 0 ? void 0 : _a.toLowerCase();
+                if (ext && ext in this._config.mimeTypes) {
+                    contentType = this._config.mimeTypes[ext];
+                }
                 response.writeHead(200, Object.assign(Object.assign({}, this._config.headers), { 'Content-Type': contentType }));
                 response.end(data, 'utf-8');
             }
         });
     }
     _resolvePath(url) {
-        let path = url !== null && url !== void 0 ? url : '/';
-        if (path) {
-            if (this._config.rewriteRules.length) {
-                for (const [pattern, pathname] of this._config.rewriteRules) {
-                    if (path.search(new RegExp(pattern)) !== -1) {
-                        path = pathname;
-                        break;
-                    }
+        let path = url;
+        if (this._config.rewriteRules.length) {
+            for (const [pattern, pathname] of this._config.rewriteRules) {
+                if (path.search(new RegExp(pattern)) !== -1) {
+                    path = pathname;
+                    break;
                 }
             }
-            if (path.endsWith('/')) {
-                path += this._config.directoryIndex;
-            }
+        }
+        if (path.endsWith('/')) {
+            path += this._config.directoryIndex;
         }
         return this._config.documentRoot + path;
     }
