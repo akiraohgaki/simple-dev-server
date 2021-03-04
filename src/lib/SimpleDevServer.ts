@@ -18,13 +18,20 @@ export default class SimpleDevServer {
                 'Cache-Control': 'no-cache'
             },
             mimeTypes: {
+                'txt': 'text/plain',
+                'htm': 'text/html',
                 'html': 'text/html',
                 'js': 'text/javascript',
                 'css': 'text/css',
+                'xml': 'application/xml',
                 'json': 'application/json',
                 'svg': 'image/svg+xml',
+                'gif': 'image/gif',
                 'jpg': 'image/jpeg',
-                'png': 'image/png'
+                'jpeg': 'image/jpeg',
+                'png': 'image/png',
+                'webp': 'image/webp',
+                'ico': 'image/vnd.microsoft.icon'
             },
             rewriteRules: [],
             ...config
