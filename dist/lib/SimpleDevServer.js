@@ -27,12 +27,16 @@ export default class SimpleDevServer {
         return this._config;
     }
     start() {
-        this._server = http.createServer((request, response) => {
-            console.log(request.url);
-            this._handleRequest(request, response);
-        });
-        this._server.listen(this._config.port);
-        console.log(`Server is started at port ${this._config.port}`);
+        if (this._server) {
+            console.log('Server is already running');
+        }
+        else {
+            this._server = http.createServer((request, response) => {
+                this._handleRequest(request, response);
+            });
+            this._server.listen(this._config.port);
+            console.log(`Server is started at port ${this._config.port}`);
+        }
     }
     stop() {
         if (this._server) {
@@ -45,7 +49,7 @@ export default class SimpleDevServer {
         }
     }
     _handleRequest(request, response) {
-        const path = this._resolvePath(request.url || '/');
+        const path = this._resolvePath(request.url);
         fs.readFile(path, (error, data) => {
             var _a;
             if (error) {
@@ -74,11 +78,12 @@ export default class SimpleDevServer {
         });
     }
     _resolvePath(url) {
-        let path = url;
+        let path = (url === null || url === void 0 ? void 0 : url.split('?')[0]) || '/';
         if (this._config.rewriteRules.length) {
-            for (const [pattern, pathname] of this._config.rewriteRules) {
-                if (path.search(new RegExp(pattern)) !== -1) {
-                    path = pathname;
+            for (const [pattern, replacement] of this._config.rewriteRules) {
+                const regex = new RegExp(pattern);
+                if (path.search(regex) !== -1) {
+                    path = path.replace(regex, replacement);
                     break;
                 }
             }
@@ -86,6 +91,7 @@ export default class SimpleDevServer {
         if (path.endsWith('/')) {
             path += this._config.directoryIndex;
         }
+        console.log(`${url}\t\t${path}`);
         return this._config.documentRoot + path;
     }
 }

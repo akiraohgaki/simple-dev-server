@@ -1,4 +1,4 @@
-import { ServerConfig } from './types.js';
+import type { ServerConfig } from './types.js';
 export default class SimpleDevServer {
     private _config;
     private _server;

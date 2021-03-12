@@ -1,6 +1,7 @@
+import type {ServerConfig} from './types.js';
+
 import http from 'http';
 import fs from 'fs';
-import {ServerConfig} from './types.js';
 
 export default class SimpleDevServer {
 
@@ -45,14 +46,17 @@ export default class SimpleDevServer {
     }
 
     start(): void {
-        this._server = http.createServer((request, response) => {
-            console.log(request.url);
+        if (this._server) {
+            console.log('Server is already running');
+        }
+        else {
+            this._server = http.createServer((request, response) => {
+                this._handleRequest(request, response);
+            });
+            this._server.listen(this._config.port);
 
-            this._handleRequest(request, response);
-        });
-        this._server.listen(this._config.port);
-
-        console.log(`Server is started at port ${this._config.port}`);
+            console.log(`Server is started at port ${this._config.port}`);
+        }
     }
 
     stop(): void {
@@ -68,7 +72,7 @@ export default class SimpleDevServer {
     }
 
     private _handleRequest(request: http.IncomingMessage, response: http.ServerResponse): void {
-        const path = this._resolvePath(request.url || '/');
+        const path = this._resolvePath(request.url);
 
         fs.readFile(path, (error, data) => {
             if (error) {
@@ -107,13 +111,14 @@ export default class SimpleDevServer {
         });
     }
 
-    private _resolvePath(url: string): string {
-        let path = url;
+    private _resolvePath(url?: string): string {
+        let path = url?.split('?')[0] || '/';
 
         if (this._config.rewriteRules.length) {
-            for (const [pattern, pathname] of this._config.rewriteRules) {
-                if (path.search(new RegExp(pattern)) !== -1) {
-                    path = pathname;
+            for (const [pattern, replacement] of this._config.rewriteRules) {
+                const regex = new RegExp(pattern);
+                if (path.search(regex) !== -1) {
+                    path = path.replace(regex, replacement);
                     break;
                 }
             }
@@ -122,6 +127,8 @@ export default class SimpleDevServer {
         if (path.endsWith('/')) {
             path += this._config.directoryIndex;
         }
+
+        console.log(`${url}\t\t${path}`);
 
         return this._config.documentRoot + path;
     }
