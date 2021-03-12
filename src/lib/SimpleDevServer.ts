@@ -51,8 +51,6 @@ export default class SimpleDevServer {
         }
         else {
             this._server = http.createServer((request, response) => {
-                console.log(request.url);
-
                 this._handleRequest(request, response);
             });
             this._server.listen(this._config.port);
@@ -74,7 +72,7 @@ export default class SimpleDevServer {
     }
 
     private _handleRequest(request: http.IncomingMessage, response: http.ServerResponse): void {
-        const path = this._resolvePath(request.url || '/');
+        const path = this._resolvePath(request.url);
 
         fs.readFile(path, (error, data) => {
             if (error) {
@@ -113,8 +111,8 @@ export default class SimpleDevServer {
         });
     }
 
-    private _resolvePath(url: string): string {
-        let path = url;
+    private _resolvePath(url?: string): string {
+        let path = url?.split('?')[0] || '/';
 
         if (this._config.rewriteRules.length) {
             for (const [pattern, replacement] of this._config.rewriteRules) {
@@ -129,6 +127,8 @@ export default class SimpleDevServer {
         if (path.endsWith('/')) {
             path += this._config.directoryIndex;
         }
+
+        console.log(`${url}\t\t${path}`);
 
         return this._config.documentRoot + path;
     }
