@@ -117,9 +117,10 @@ export default class SimpleDevServer {
         let path = url;
 
         if (this._config.rewriteRules.length) {
-            for (const [pattern, pathname] of this._config.rewriteRules) {
-                if (path.search(new RegExp(pattern)) !== -1) {
-                    path = pathname;
+            for (const [pattern, replacement] of this._config.rewriteRules) {
+                const regex = new RegExp(pattern);
+                if (path.search(regex) !== -1) {
+                    path = path.replace(regex, replacement);
                     break;
                 }
             }
