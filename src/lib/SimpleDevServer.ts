@@ -46,14 +46,19 @@ export default class SimpleDevServer {
     }
 
     start(): void {
-        this._server = http.createServer((request, response) => {
-            console.log(request.url);
+        if (this._server) {
+            console.log('Server is already running');
+        }
+        else {
+            this._server = http.createServer((request, response) => {
+                console.log(request.url);
 
-            this._handleRequest(request, response);
-        });
-        this._server.listen(this._config.port);
+                this._handleRequest(request, response);
+            });
+            this._server.listen(this._config.port);
 
-        console.log(`Server is started at port ${this._config.port}`);
+            console.log(`Server is started at port ${this._config.port}`);
+        }
     }
 
     stop(): void {
