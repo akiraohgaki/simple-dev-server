@@ -1,6 +1,7 @@
+import type {ServerConfig} from './types.js';
+
 import http from 'http';
 import fs from 'fs';
-import {ServerConfig} from './types.js';
 
 export default class SimpleDevServer {
 
