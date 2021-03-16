@@ -1,6 +1,6 @@
 import type {ServerConfig} from './types.js';
 
-const config: ServerConfig = {
+export const defaultConfig: ServerConfig = {
     port: 8080,
     documentRoot: process.cwd(),
     directoryIndex: 'index.html',
@@ -26,5 +26,3 @@ const config: ServerConfig = {
         'ico': 'image/vnd.microsoft.icon'
     }
 };
-
-export default config;
