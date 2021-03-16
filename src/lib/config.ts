@@ -11,19 +11,40 @@ export const defaultConfig: ServerConfig = {
         'Cache-Control': 'no-cache'
     },
     mimeTypes: {
+        // Text
         'txt': 'text/plain',
         'htm': 'text/html',
         'html': 'text/html',
-        'js': 'text/javascript',
         'css': 'text/css',
-        'xml': 'application/xml',
-        'json': 'application/json',
+        'js': 'text/javascript',
+        // Font
+        'eot': 'application/vnd.ms-fontobject',
+        'ttf': 'font/ttf',
+        'otf': 'font/otf',
+        'woff': 'font/woff',
+        'woff2': 'font/woff2',
+        // Image
         'svg': 'image/svg+xml',
+        'ico': 'image/vnd.microsoft.icon',
         'gif': 'image/gif',
         'jpg': 'image/jpeg',
         'jpeg': 'image/jpeg',
+        'jfif': 'image/jpeg',
+        'pjpeg': 'image/jpeg',
+        'pjp': 'image/jpeg',
         'png': 'image/png',
+        'apng': 'image/apng',
         'webp': 'image/webp',
-        'ico': 'image/vnd.microsoft.icon'
+        'avif': 'image/avif',
+        // Audio and Video
+        'wav': 'audio/wav',
+        'ogg': 'application/ogg',
+        'oga': 'audio/ogg',
+        'ogv': 'video/ogg',
+        'weba': 'audio/webm',
+        'webm': 'video/webm',
+        // Application data format
+        'json': 'application/json',
+        'xml': 'application/xml'
     }
 };
