@@ -26,9 +26,9 @@ export default class SimpleDevServer {
         }
         else {
             this._server = http.createServer(this._handleRequest.bind(this));
-            this._server.listen(this._config.port);
+            this._server.listen(this._config.port, this._config.hostname);
 
-            console.log(`Server is started at port ${this._config.port}`);
+            console.log(`Server started on http://${this._config.hostname}:${this._config.port}/`);
         }
     }
 

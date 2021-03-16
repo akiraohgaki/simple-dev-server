@@ -1,6 +1,7 @@
 import type {ServerConfig} from './types.js';
 
 export const defaultConfig: ServerConfig = {
+    hostname: 'localhost',
     port: 8080,
     documentRoot: process.cwd(),
     directoryIndex: 'index.html',

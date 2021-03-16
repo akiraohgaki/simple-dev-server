@@ -1,4 +1,5 @@
 export interface ServerConfig {
+    hostname: string;
     port: number;
     documentRoot: string;
     directoryIndex: string;
