@@ -2,6 +2,7 @@ import type {ServerConfig} from './types.js';
 
 import http from 'http';
 import fs from 'fs';
+import {defaultConfig} from './config.js';
 
 export default class SimpleDevServer {
 
@@ -10,33 +11,7 @@ export default class SimpleDevServer {
     private _server: http.Server | null;
 
     constructor(config: Partial<ServerConfig> = {}) {
-        this._config = {
-            port: 8080,
-            documentRoot: process.cwd(),
-            directoryIndex: 'index.html',
-            headers: {
-                'Pragma': 'no-cache',
-                'Cache-Control': 'no-cache'
-            },
-            mimeTypes: {
-                'txt': 'text/plain',
-                'htm': 'text/html',
-                'html': 'text/html',
-                'js': 'text/javascript',
-                'css': 'text/css',
-                'xml': 'application/xml',
-                'json': 'application/json',
-                'svg': 'image/svg+xml',
-                'gif': 'image/gif',
-                'jpg': 'image/jpeg',
-                'jpeg': 'image/jpeg',
-                'png': 'image/png',
-                'webp': 'image/webp',
-                'ico': 'image/vnd.microsoft.icon'
-            },
-            rewriteRules: [],
-            ...config
-        };
+        this._config = {...defaultConfig, ...config};
 
         this._server = null;
     }
@@ -50,12 +25,10 @@ export default class SimpleDevServer {
             console.log('Server is already running');
         }
         else {
-            this._server = http.createServer((request, response) => {
-                this._handleRequest(request, response);
-            });
-            this._server.listen(this._config.port);
+            this._server = http.createServer(this._handleRequest.bind(this));
+            this._server.listen(this._config.port, this._config.hostname);
 
-            console.log(`Server is started at port ${this._config.port}`);
+            console.log(`Server started on http://${this._config.hostname}:${this._config.port}/`);
         }
     }
 
