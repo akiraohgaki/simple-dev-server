@@ -16,7 +16,7 @@ export const defaultConfig: ServerConfig = {
         'htm': 'text/html',
         'html': 'text/html',
         'css': 'text/css',
-        'js': 'text/javascript',
+        'js': 'application/javascript',
         // Font
         'eot': 'application/vnd.ms-fontobject',
         'ttf': 'font/ttf',
