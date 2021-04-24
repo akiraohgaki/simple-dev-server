@@ -5,7 +5,10 @@ export const defaultConfig: ServerConfig = {
     port: 8080,
     documentRoot: process.cwd(),
     directoryIndex: 'index.html',
-    rewriteRules: [],
+    rewriteRules: [
+        ['(.+\\.\\w+)$', '$1'],
+        ['.*', '/index.html']
+    ],
     headers: {
         'Pragma': 'no-cache',
         'Cache-Control': 'no-cache'
