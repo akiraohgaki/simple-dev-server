@@ -1,6 +1,6 @@
 {
     "name": "simple-dev-server",
-    "version": "1.0.3",
+    "version": "1.1.0",
     "description": "A simple development web server module and CLI.",
     "author": "Akira Ohgaki",
     "license": "BSD-2-Clause",
