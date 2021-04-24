@@ -3,7 +3,10 @@ export const defaultConfig = {
     port: 8080,
     documentRoot: process.cwd(),
     directoryIndex: 'index.html',
-    rewriteRules: [],
+    rewriteRules: [
+        ['(.+\\.\\w+)$', '$1'],
+        ['.*', '/index.html']
+    ],
     headers: {
         'Pragma': 'no-cache',
         'Cache-Control': 'no-cache'
@@ -13,7 +16,7 @@ export const defaultConfig = {
         'htm': 'text/html',
         'html': 'text/html',
         'css': 'text/css',
-        'js': 'text/javascript',
+        'js': 'application/javascript',
         'eot': 'application/vnd.ms-fontobject',
         'ttf': 'font/ttf',
         'otf': 'font/otf',
