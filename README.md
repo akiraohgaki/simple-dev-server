@@ -1,6 +1,6 @@
 # Simple Dev Server
 
-A simple development web server module.
+A simple development web server module and CLI.
 
 Copyright: 2021, Akira Ohgaki
 
