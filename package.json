@@ -1,7 +1,7 @@
 {
     "name": "simple-dev-server",
     "version": "1.0.3",
-    "description": "A simple development web server module.",
+    "description": "A simple development web server module and CLI.",
     "author": "Akira Ohgaki",
     "license": "BSD-2-Clause",
     "homepage": "https://github.com/akiraohgaki/simple-dev-server",
@@ -12,15 +12,16 @@
     "type": "module",
     "main": "dist/simple-dev-server.js",
     "types": "dist/simple-dev-server.d.ts",
+    "bin": "dist/simple-dev-server-cli.js",
     "scripts": {
-        "start": "node server.js",
+        "test": "dist/simple-dev-server-cli.js public",
         "clean": "rm -rf dist",
         "lint": "npm run lint:tsc && npm run lint:eslint",
         "lint:tsc": "tsc --noEmit",
         "lint:eslint": "eslint --ext '.ts' src",
         "prebuild": "npm run clean && npm run lint",
         "build": "tsc",
-        "watch": "tsc -w"
+        "postbuild": "chmod 755 dist/simple-dev-server-cli.js"
     },
     "devDependencies": {
         "typescript": "*",
