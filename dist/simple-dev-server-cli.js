@@ -1,7 +1,8 @@
 #!/usr/bin/env node
+var _a;
 import SimpleDevServer from './lib/SimpleDevServer.js';
 const server = new SimpleDevServer({
-    documentRoot: process.argv[2] ? process.argv[2] : process.cwd()
+    documentRoot: (_a = process.argv[2]) !== null && _a !== void 0 ? _a : process.cwd()
 });
 server.start();
 //# sourceMappingURL=simple-dev-server-cli.js.map

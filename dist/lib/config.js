@@ -3,10 +3,7 @@ export const defaultConfig = {
     port: 8080,
     documentRoot: process.cwd(),
     directoryIndex: 'index.html',
-    rewriteRules: [
-        ['(.+\\.\\w+)$', '$1'],
-        ['.*', '/index.html']
-    ],
+    rewriteRules: [],
     headers: {
         'Pragma': 'no-cache',
         'Cache-Control': 'no-cache'

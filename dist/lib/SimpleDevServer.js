@@ -34,15 +34,11 @@ export default class SimpleDevServer {
         fs.readFile(path, (error, data) => {
             var _a;
             if (error) {
-                let statusCode = 0;
-                let message = '';
+                let statusCode = 500;
+                let message = 'Internal Server Error';
                 if (error.code === 'ENOENT') {
                     statusCode = 404;
                     message = 'Not Found';
-                }
-                else {
-                    statusCode = 500;
-                    message = 'Internal Server Error';
                 }
                 response.writeHead(statusCode, Object.assign(Object.assign({}, this._config.headers), { 'Content-Type': 'text/plain' }));
                 response.end(message, 'utf-8');
