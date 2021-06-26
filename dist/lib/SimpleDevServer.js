@@ -3,7 +3,7 @@ import fs from 'fs';
 import { defaultConfig } from './config.js';
 export default class SimpleDevServer {
     constructor(config = {}) {
-        this._config = Object.assign(Object.assign({}, defaultConfig), config);
+        this._config = { ...defaultConfig, ...config };
         this._server = null;
     }
     get config() {
@@ -32,7 +32,6 @@ export default class SimpleDevServer {
     _handleRequest(request, response) {
         const path = this._resolvePath(request.url);
         fs.readFile(path, (error, data) => {
-            var _a;
             if (error) {
                 let statusCode = 500;
                 let message = 'Internal Server Error';
@@ -40,22 +39,28 @@ export default class SimpleDevServer {
                     statusCode = 404;
                     message = 'Not Found';
                 }
-                response.writeHead(statusCode, Object.assign(Object.assign({}, this._config.headers), { 'Content-Type': 'text/plain' }));
+                response.writeHead(statusCode, {
+                    ...this._config.headers,
+                    'Content-Type': 'text/plain'
+                });
                 response.end(message, 'utf-8');
             }
             else {
                 let contentType = 'application/octet-stream';
-                const ext = (_a = path.split('.').pop()) === null || _a === void 0 ? void 0 : _a.toLowerCase();
+                const ext = path.split('.').pop()?.toLowerCase();
                 if (ext && ext in this._config.mimeTypes) {
                     contentType = this._config.mimeTypes[ext];
                 }
-                response.writeHead(200, Object.assign(Object.assign({}, this._config.headers), { 'Content-Type': contentType }));
+                response.writeHead(200, {
+                    ...this._config.headers,
+                    'Content-Type': contentType
+                });
                 response.end(data, 'utf-8');
             }
         });
     }
     _resolvePath(url) {
-        let path = (url === null || url === void 0 ? void 0 : url.split('?')[0]) || '/';
+        let path = url?.split('?')[0] || '/';
         if (this._config.rewriteRules.length) {
             for (const [pattern, replacement] of this._config.rewriteRules) {
                 const regex = new RegExp(pattern);
@@ -72,4 +77,3 @@ export default class SimpleDevServer {
         return this._config.documentRoot + path;
     }
 }
-//# sourceMappingURL=SimpleDevServer.js.map

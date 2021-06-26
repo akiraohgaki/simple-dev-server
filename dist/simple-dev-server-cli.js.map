@@ -1,1 +1,0 @@
-{"version":3,"file":"simple-dev-server-cli.js","sourceRoot":"","sources":["../src/simple-dev-server-cli.ts"],"names":[],"mappings":";;AAEA,OAAO,eAAe,MAAM,0BAA0B,CAAC;AAEvD,MAAM,MAAM,GAAG,IAAI,eAAe,CAAC;IAC/B,YAAY,EAAE,MAAA,OAAO,CAAC,IAAI,CAAC,CAAC,CAAC,mCAAI,OAAO,CAAC,GAAG,EAAE;CACjD,CAAC,CAAC;AACH,MAAM,CAAC,KAAK,EAAE,CAAC"}

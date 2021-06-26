@@ -41,4 +41,3 @@ export const defaultConfig = {
         'xml': 'application/xml'
     }
 };
-//# sourceMappingURL=config.js.map
