@@ -8,7 +8,7 @@
       "DOM.Iterable"
     ],
     "declaration": true,
-    "sourceMap": true,
+    "sourceMap": false,
     "removeComments": true,
     "strict": true,
     "noUnusedLocals": true,
