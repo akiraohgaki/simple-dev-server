@@ -1,7 +1,7 @@
-import type { ServerConfig } from './types.js';
+import type { SimpleDevServerConfig } from './types.js';
 
-export const defaultConfig: ServerConfig = {
-  hostname: 'localhost',
+export const config: SimpleDevServerConfig = {
+  hostname: '0.0.0.0',
   port: 8080,
   documentRoot: process.cwd(),
   directoryIndex: 'index.html',

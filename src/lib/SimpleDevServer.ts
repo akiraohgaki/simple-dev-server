@@ -1,30 +1,28 @@
-import type { ServerConfig } from './types.js';
+import type { SimpleDevServerConfig, SimpleDevServerOptions } from './types.js';
 
 import http from 'http';
 import fs from 'fs';
-import { defaultConfig } from './config.js';
+import { config } from './config.js';
 
 export default class SimpleDevServer {
-
-  private _config: ServerConfig;
+  private _config: SimpleDevServerConfig;
 
   private _server: http.Server | null;
 
-  constructor(config: Partial<ServerConfig> = {}) {
-    this._config = { ...defaultConfig, ...config };
+  constructor(options: SimpleDevServerOptions = {}) {
+    this._config = { ...config, ...options };
 
     this._server = null;
   }
 
-  get config(): ServerConfig {
+  get config(): SimpleDevServerConfig {
     return this._config;
   }
 
   start(): void {
     if (this._server) {
       console.log('Server is already running');
-    }
-    else {
+    } else {
       this._server = http.createServer(this._handleRequest.bind(this));
       this._server.listen(this._config.port, this._config.hostname);
 
@@ -38,8 +36,7 @@ export default class SimpleDevServer {
       this._server = null;
 
       console.log('Server has stopped');
-    }
-    else {
+    } else {
       console.log('Server is not running');
     }
   }
@@ -62,8 +59,7 @@ export default class SimpleDevServer {
           'Content-Type': 'text/plain'
         });
         response.end(message, 'utf-8');
-      }
-      else {
+      } else {
         let contentType = 'application/octet-stream';
 
         const ext = path.split('.').pop()?.toLowerCase();
@@ -80,7 +76,7 @@ export default class SimpleDevServer {
     });
   }
 
-  private _resolvePath(url?: string): string {
+  private _resolvePath(url: string | undefined): string {
     let path = url?.split('?')[0] || '/';
 
     if (this._config.rewriteRules.length) {
@@ -101,5 +97,4 @@ export default class SimpleDevServer {
 
     return this._config.documentRoot + path;
   }
-
 }
