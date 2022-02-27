@@ -1,2 +1,2 @@
-import type { ServerConfig } from './types.js';
-export declare const defaultConfig: ServerConfig;
+import type { SimpleDevServerConfig } from './types.js';
+export declare const config: SimpleDevServerConfig;

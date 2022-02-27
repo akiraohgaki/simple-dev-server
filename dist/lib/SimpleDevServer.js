@@ -1,9 +1,9 @@
 import http from 'http';
 import fs from 'fs';
-import { defaultConfig } from './config.js';
+import { config } from './config.js';
 export default class SimpleDevServer {
-    constructor(config = {}) {
-        this._config = { ...defaultConfig, ...config };
+    constructor(options = {}) {
+        this._config = { ...config, ...options };
         this._server = null;
     }
     get config() {
