@@ -10,24 +10,28 @@
     "url": "https://github.com/akiraohgaki/simple-dev-server.git"
   },
   "type": "module",
-  "main": "dist/simple-dev-server.js",
-  "types": "dist/simple-dev-server.d.ts",
-  "bin": "dist/simple-dev-server-cli.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "simple-dev-server": "dist/simple-dev-server-cli.js"
+  },
   "scripts": {
-    "test": "dist/simple-dev-server-cli.js public",
+    "prestart": "npm install && npm run build",
+    "start": "dist/simple-dev-server-cli.js public",
     "clean": "rm -rf dist",
     "lint": "npm run lint:tsc && npm run lint:eslint",
     "lint:tsc": "tsc --noEmit",
     "lint:eslint": "eslint --ext '.ts' src",
     "prebuild": "npm run clean && npm run lint",
-    "build": "tsc",
-    "postbuild": "chmod 755 dist/simple-dev-server-cli.js"
+    "build": "npm run build:tsc && npm run build:cli",
+    "build:tsc": "tsc",
+    "build:cli": "chmod 755 dist/simple-dev-server-cli.js"
   },
   "devDependencies": {
-    "typescript": "*",
-    "eslint": "*",
-    "@typescript-eslint/parser": "*",
+    "@types/node": "*",
     "@typescript-eslint/eslint-plugin": "*",
-    "@types/node": "*"
+    "@typescript-eslint/parser": "*",
+    "eslint": "*",
+    "typescript": "*"
   }
 }
