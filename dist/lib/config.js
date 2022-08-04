@@ -6,7 +6,7 @@ export const config = {
     rewriteRules: [],
     headers: {
         'Pragma': 'no-cache',
-        'Cache-Control': 'no-cache'
+        'Cache-Control': 'no-cache',
     },
     mimeTypes: {
         'txt': 'text/plain',
@@ -38,6 +38,6 @@ export const config = {
         'weba': 'audio/webm',
         'webm': 'video/webm',
         'json': 'application/json',
-        'xml': 'application/xml'
-    }
+        'xml': 'application/xml',
+    },
 };

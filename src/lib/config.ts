@@ -8,7 +8,7 @@ export const config: SimpleDevServerConfig = {
   rewriteRules: [],
   headers: {
     'Pragma': 'no-cache',
-    'Cache-Control': 'no-cache'
+    'Cache-Control': 'no-cache',
   },
   mimeTypes: {
     // Text
@@ -45,6 +45,6 @@ export const config: SimpleDevServerConfig = {
     'webm': 'video/webm',
     // Application data format
     'json': 'application/json',
-    'xml': 'application/xml'
-  }
+    'xml': 'application/xml',
+  },
 };
