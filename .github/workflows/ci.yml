@@ -1,32 +1,27 @@
 name: CI
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
+
+permissions:
+  contents: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
-    - uses: actions/setup-node@v2
-      with:
-        node-version: 'lts/*'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
 
-    - name: Build
-      run: |
-        npm ci
-        npm run build
+      - name: Build
+        run: |
+          npm ci
+          npm run build
 
-    - name: Apply automatic changes
-      run: |
-        git add -N .
-        if ! git diff --exit-code --quiet; then
-          git config --local user.name 'GitHub Actions'
-          git config --local user.email 'actions@github.com'
-          git add .
-          git commit -m 'Apply automatic changes'
-          git push
-        fi
+      - uses: akiraohgaki/actions/git-commit-push@main

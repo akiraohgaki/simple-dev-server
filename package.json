@@ -1,6 +1,7 @@
 {
   "name": "simple-dev-server",
   "version": "1.2.0",
+  "private": true,
   "description": "A simple development web server module and CLI.",
   "author": "Akira Ohgaki",
   "license": "BSD-2-Clause",
@@ -16,16 +17,19 @@
     "simple-dev-server": "dist/simple-dev-server-cli.js"
   },
   "scripts": {
-    "prestart": "npm install && npm run build",
-    "start": "dist/simple-dev-server-cli.js public",
-    "clean": "rm -rf dist",
-    "lint": "npm run lint:tsc && npm run lint:eslint",
-    "lint:tsc": "tsc --noEmit",
-    "lint:eslint": "eslint --ext '.ts' src",
-    "prebuild": "npm run clean && npm run lint",
-    "build": "npm run build:tsc && npm run build:cli",
-    "build:tsc": "tsc",
-    "build:cli": "chmod 755 dist/simple-dev-server-cli.js"
+    "fmt": "echo 'Skip task fmt'",
+    "lint": "tsc --noEmit && eslint --ext '.ts,.tsx,.js' src",
+    "build": "npm run build:setup && npm run build:fix && npm run build:bundle && npm run build:teardown",
+    "build:setup": "rm -rf dist",
+    "build:fix": "npm run fmt && npm run lint",
+    "build:bundle": "tsc && echo 'Transpiling only'",
+    "build:teardown": "chmod 755 dist/simple-dev-server-cli.js",
+    "test": "npm run test:setup && npm run test:unit && npm run test:e2e && npm run test:teardown",
+    "test:setup": "echo 'Skip task test:setup'",
+    "test:unit": "echo 'Skip task test:unit",
+    "test:e2e": "echo 'Skip task test:e2e'",
+    "test:teardown": "echo 'Skip task test:teardown'",
+    "serve": "dist/simple-dev-server-cli.js public"
   },
   "devDependencies": {
     "@types/node": "*",
