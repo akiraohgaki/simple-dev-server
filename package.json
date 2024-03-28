@@ -19,10 +19,9 @@
   "scripts": {
     "fmt": "echo 'Skip task fmt'",
     "lint": "tsc --noEmit && eslint --ext '.ts,.tsx,.js' src",
-    "build": "npm run build:setup && npm run build:fix && npm run build:bundle && npm run build:teardown",
+    "build": "npm run build:setup && npm run build:transpile && npm run build:teardown",
     "build:setup": "rm -rf dist",
-    "build:fix": "npm run fmt && npm run lint",
-    "build:bundle": "tsc && echo 'Transpiling only'",
+    "build:transpile": "tsc",
     "build:teardown": "chmod 755 dist/simple-dev-server-cli.js",
     "test": "npm run test:setup && npm run test:unit && npm run test:e2e && npm run test:teardown",
     "test:setup": "echo 'Skip task test:setup'",
